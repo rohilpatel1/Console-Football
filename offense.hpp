@@ -5,6 +5,8 @@
 #include "random/random.hpp"
 
 void displayOffensiveOptions(int);
+void showSpecialPlays();
+void punt();
 
 void touchdown() {
   std::cout << "\nT O U C H D O W N !\n" << std::endl;
@@ -159,6 +161,7 @@ void showNormalPlays() {
   << "1. Throw for few yards \n"
 	<< "2. Float down the field \n"
   << "3. Rush for some yards \n"
+  << "4. Show special plays \n"
   << std::endl;
 
 	std::cin >> userSelect;
@@ -173,6 +176,9 @@ void showNormalPlays() {
     case 3:
       floatDownTheField();
       break;
+    case 4:
+      showSpecialPlays();
+      break;
 		default:
 			std::cout << "An error occured." << std::endl;
 			showNormalPlays();
@@ -181,6 +187,8 @@ void showNormalPlays() {
 }
 
 void showSpecialPlays() {
+  int userSelect;
+
   std::cout 
   << "1. Hail Mary for end zone \n"
   << "2. Punt\n"
@@ -188,6 +196,23 @@ void showSpecialPlays() {
   << "4. Display Normal Offensive Options\n"
 	<< "5. Field Goal"
   << std::endl;
+
+  std::cin >> userSelect;
+
+  switch(userSelect) {
+    case 1:
+      break;
+    case 2:
+      punt();
+      break;
+    case 3:
+      break;
+    case 4:
+      displayOffensiveOptions(down);
+      break;
+    default:
+      std::cout << "e" << std::endl;
+  }
 }
 
 void kickOff() {
@@ -201,10 +226,18 @@ void punt() {
 	yardAt = 100 - yardAt;
 	currentPos = false;
 
-	std::cout 
-	<< "You punted for 60 yards. Your opponent will start at their own " 
-	<< yardAt
-	<< std::endl;
+  if (yardAt <= 0) {
+    yardAt = 20;
+    std::cout 
+	  << "You punted for 60 yards. The result of the play was a touchback, and the ball will be placed at the 20 yard line. " 
+	  << yardAt
+	  << std::endl;
+  } else {
+    std::cout 
+	  << "You punted for 60 yards. Your opponent will start at their own " 
+	  << yardAt
+	  << std::endl;
+  }
 
 	// open the defense panel
 }
