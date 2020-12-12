@@ -11,6 +11,8 @@ void punt();
 void touchdown() {
   std::cout << "\nT O U C H D O W N !\n" << std::endl;
 
+  pointsByClient += 6;
+
   std::cout 
   << "Choose an option:"
   << "1. Kick Extra Point"
@@ -186,6 +188,55 @@ void showNormalPlays() {
 	}
 }
 
+void fieldGoal() {
+  std::string n;
+  int y;
+
+  if (yardAt >= 60) {
+    int prob = randint(1, 2);
+
+    if (prob == 1) {
+      std::cout << "F I E L D  G O A L!";
+      pointsByClient += 3;
+    } else {
+      if (yardAt >= 50) {
+        y = 100 - yardAt;
+			  n = "their own";
+		  } else if (yardAt < 50) {
+			  n = "your own";
+        y = yardAt;
+		  } else {
+		    n = "midfield";
+		  }
+
+      std::cout 
+      << "Field Goal attempt was missed. Opponent takes over at "
+      << n
+      << " "
+      << y
+      << std::endl;
+      }
+  } else {
+    if (yardAt >= 50) {
+      y = 100 - yardAt;
+			n = "their own";
+		} else if (yardAt < 50) {
+			n = "your own";
+      y = yardAt;
+		} else {
+		n = "midfield";
+		}
+    
+    std::cout 
+    << "Field Goal attempt was short. Opponent takes over at "
+    << n
+    << " "
+    << y
+    << std::endl;
+
+  }
+}
+
 void showSpecialPlays() {
   int userSelect;
 
@@ -210,6 +261,9 @@ void showSpecialPlays() {
     case 4:
       displayOffensiveOptions(down);
       break;
+    case 5:
+      fieldGoal();
+    break;
     default:
       std::cout << "e" << std::endl;
   }
