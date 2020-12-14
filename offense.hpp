@@ -8,7 +8,57 @@ void displayOffensiveOptions(int);
 void showSpecialPlays();
 void punt();
 
+void kickOffToOpponent() {
+  std::cout << "You kicked 65 yards to the end zone for a touchback. Out comes your defense." << std::endl;
+  int yardAt = 25;
+  currentPos = false;
+
+  //showDefensivePlays()
+}
+
+void kickExtraPoint() {
+  int prob = randint(1, 4);
+
+  if (prob == 1) {
+    std::cout << "Extra Point No Good" << std::endl;
+  } else {
+    pointsByClient++;
+
+    std::cout 
+    << "Extra Point is good! \n\n"
+    << "You now have "
+    << pointsByClient
+    << ", and your opponent has "
+    << pointsByOpponent
+    << std::endl;
+  }
+
+  kickOffToOpponent();
+}
+
+void twoPointConversion() {
+  int prob = randint(1, 2);
+
+  if (prob == 1) {
+    pointsByClient++;
+    std::cout 
+    << "2  P O I N T  C O N V E R S I O N\n"
+    << std::endl;
+    
+  } else {
+    std::cout
+    << "Two point conversion is no good"
+    << std::endl;
+
+    yardAt = 25;
+  }
+
+  kickOffToOpponent();
+}
+
 void touchdown() {
+  int userSelect;
+
   std::cout << "\nT O U C H D O W N !\n" << std::endl;
 
   pointsByClient += 6;
@@ -18,6 +68,19 @@ void touchdown() {
   << "1. Kick Extra Point"
   << "2. Attempt a 2 point conversion"
   << std::endl;
+
+  std::cin >> userSelect;
+
+  switch(userSelect) {
+    case 1:
+      kickExtraPoint();
+      break;
+    case 2:
+      twoPointConversion();
+      break;
+    default:
+      std::cout << "e" << std::endl;
+  }
 }
 
 void rushForYards() {
@@ -78,7 +141,7 @@ void floatDownTheField() {
     if (yardAt > 50) {
 			std::cout
 			<< "You are at your opponents "
-			<< yardAt
+			<< 100 - yardAt
 			<< std::endl;
 		} else if (yardAt < 50) {
 			std::cout 
@@ -161,8 +224,8 @@ void showNormalPlays() {
   std::cout 
   << "Showing offensive plays: \n\n"
   << "1. Throw for few yards \n"
-	<< "2. Float down the field \n"
-  << "3. Rush for some yards \n"
+  << "2. Rush for some yards \n"
+  << "3. Float down the field \n"
   << "4. Show special plays \n"
   << std::endl;
 
@@ -237,6 +300,19 @@ void fieldGoal() {
   }
 }
 
+void kneeBall() {
+  down++;
+  yardAt--;
+
+  std::cout << "Ball was kneed. Loss of one on the play." << std::endl;
+
+  if (down >= 5) {
+    std::cout << "Turnover" << std::endl;
+  } else {
+    displayOffensiveOptions(down);
+  }
+}
+
 void showSpecialPlays() {
   int userSelect;
 
@@ -257,9 +333,10 @@ void showSpecialPlays() {
       punt();
       break;
     case 3:
+      kneeBall();
       break;
     case 4:
-      displayOffensiveOptions(down);
+      showNormalPlays();
       break;
     case 5:
       fieldGoal();
@@ -270,6 +347,9 @@ void showSpecialPlays() {
 }
 
 void kickOff() {
+  yardAt = 25;
+  yardsToGo = 10;
+  down = 1;
 	std::cout << "\nKickoff was made to the end zone. Touchback." << std::endl;
 
 	displayOffensiveOptions(down);
