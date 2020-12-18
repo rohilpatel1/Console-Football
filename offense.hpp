@@ -33,6 +33,9 @@ void kickExtraPoint() {
     << std::endl;
   }
 
+  std::cout << "You now have " << pointsByClient << " points.!" <<std::endl;
+
+
   kickOffToOpponent();
 }
 
@@ -41,9 +44,12 @@ void twoPointConversion() {
 
   if (prob == 1) {
     pointsByClient++;
+    
     std::cout 
     << "2  P O I N T  C O N V E R S I O N\n"
     << std::endl;
+
+    std::cout << "You now have " << pointsByClient << " points.!" <<std::endl;
     
   } else {
     std::cout
@@ -56,18 +62,25 @@ void twoPointConversion() {
   kickOffToOpponent();
 }
 
+void touchDownOptions() {
+  std::cout 
+  << "Choose an option: \n\n"
+  << "1. Kick Extra Point\n"
+  << "2. Attempt a 2 point conversion"
+  << std::endl;
+}
+
 void touchdown() {
   int userSelect;
+  pointsByClient += 6;
 
   std::cout << "\nT O U C H D O W N !\n" << std::endl;
 
+  std::cout << "You now have " << pointsByClient << " points.\n" << std::endl;
+
   pointsByClient += 6;
 
-  std::cout 
-  << "Choose an option:"
-  << "1. Kick Extra Point"
-  << "2. Attempt a 2 point conversion"
-  << std::endl;
+  touchDownOptions();
 
   std::cin >> userSelect;
 
@@ -79,7 +92,8 @@ void touchdown() {
       twoPointConversion();
       break;
     default:
-      std::cout << "e" << std::endl;
+      std::cout << "That is not a valid option" << std::endl;
+      touchDownOptions();
   }
 }
 
@@ -138,7 +152,7 @@ void floatDownTheField() {
     << " yards." 
     << std::endl;
 
-    if (yardAt > 50) {
+    if (yardAt > 50 && yardAt < 100) {
 			std::cout
 			<< "You are at your opponents "
 			<< 100 - yardAt
@@ -148,7 +162,7 @@ void floatDownTheField() {
 			<< "You are at your own " 
 			<< yardAt 
 			<< std::endl;
-		} else {
+		} else if (yardAt == 50){
 			std::cout 
 			<< "You are at midfield"
 			<< std::endl;
@@ -157,11 +171,24 @@ void floatDownTheField() {
     if (yardAt >= 100) {
       touchdown();
     } else {
-      displayOffensiveOptions(down);
+      if (down == 5) {
+        std::cout << "You have forced a turnover." << std::endl;
+        //displayDefensiveOptions()
+        return;
+      } else {
+        displayOffensiveOptions(down);
+      }
     }
   } else {
     std::cout << "Pass was incomplete." << std::endl;
-    displayOffensiveOptions(down);
+
+    if (down == 5) {
+      std::cout << "You have forced a turnover." << std::endl;
+      //displayDefensiveOptions()
+      return;
+    } else {
+      displayOffensiveOptions(down);
+    }
   }
 }
 
@@ -172,19 +199,19 @@ void throwForYards() {
 
 	if (randomNumber > 7) {
 
-		if (yardAt > 50) {
+		if (yardAt > 50 && yardAt < 100) {
 			std::cout
-			<< "The pass was incomplete. You are at your opponents "
-			<< yardAt
+			<< "You are at your opponents "
+			<< 100 - yardAt
 			<< std::endl;
 		} else if (yardAt < 50) {
 			std::cout 
-			<< "The pass was incomplete. You are at your own " 
+			<< "You are at your own " 
 			<< yardAt 
 			<< std::endl;
-		} else {
+		} else if (yardAt == 50){
 			std::cout 
-			<< "The pass was incomplete. You are at midfield"
+			<< "You are at midfield"
 			<< std::endl;
 		}
 
@@ -202,11 +229,11 @@ void throwForYards() {
 			<< "You are at your opponents "
 			<< 100 - yardAt
 			<< std::endl;
-		} else if (yardAt < 50) {
+		} else if (yardAt < 50 && yardAt > 0) {
 			std::cout 
 			<< "You are at your own " 
 			<< yardAt << std::endl;
-		} else {
+		} else if(yardAt == 50) {
 			std::cout << "You are nodw at midfield" << std::endl;
 		}
 	}
@@ -214,7 +241,13 @@ void throwForYards() {
   if (yardAt >= 100) {
     std::cout << "\nT O U C H D O W N !" << std::endl;
   } else {
-    displayOffensiveOptions(down);
+    if (down == 5) {
+      std::cout << "You have forced a turnover." << std::endl;
+      //displayDefensiveOptions()
+      return;
+    } else {
+      displayOffensiveOptions(down);
+    }
   }
 }
 
@@ -261,6 +294,7 @@ void fieldGoal() {
     if (prob == 1) {
       std::cout << "F I E L D  G O A L!";
       pointsByClient += 3;
+      std::cout << "\n You now have " << pointsByClient << "points!" << std::endl;
     } else {
       if (yardAt >= 50) {
         y = 100 - yardAt;
@@ -298,18 +332,27 @@ void fieldGoal() {
     << std::endl;
 
   }
+
+  kickOffToOpponent();
 }
 
 void kneeBall() {
   down++;
   yardAt--;
+  yardsToGo++;
 
   std::cout << "Ball was kneed. Loss of one on the play." << std::endl;
 
   if (down >= 5) {
     std::cout << "Turnover" << std::endl;
   } else {
-    displayOffensiveOptions(down);
+    if (down == 5) {
+      std::cout << "You have forced a turnover." << std::endl;
+      //displayDefensiveOptions()
+      return;
+    } else {
+      displayOffensiveOptions(down);
+    }
   }
 }
 
