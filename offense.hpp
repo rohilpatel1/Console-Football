@@ -43,7 +43,7 @@ void twoPointConversion() {
   int prob = randint(1, 2);
 
   if (prob == 1) {
-    pointsByClient++;
+    pointsByClient += 2;
     
     std::cout 
     << "2  P O I N T  C O N V E R S I O N\n"
@@ -78,7 +78,6 @@ void touchdown() {
 
   std::cout << "You now have " << pointsByClient << " points.\n" << std::endl;
 
-  pointsByClient += 6;
 
   touchDownOptions();
 
@@ -127,6 +126,11 @@ void rushForYards() {
     << std::endl;
   }
 
+	if (yardsToGo <= 0) {
+		down = 1;
+		yardsToGo = 10;
+	}
+
   if (yardAt >= 100) {
     touchdown();
   } else {
@@ -139,7 +143,7 @@ void floatDownTheField() {
   int randomNumber = randint(1, 2);
 
   if (randomNumber == 1) {
-    int yardage = randint(8, 37);
+    int yardage = randint(10, 17);
 
     yardAt += yardage;
 
